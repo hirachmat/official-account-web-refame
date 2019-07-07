@@ -1,0 +1,103 @@
+.fitur {
+    position: relative;
+    margin-top: 50px;
+}
+
+.fitur__parallax-bg {
+    position: relative;
+    background-image: url('../../images/background_home_bawah.jpg');
+    background-size: cover !important;
+    min-height: 1150px;
+    height: auto !important;
+    background-repeat: no-repeat !important;
+}
+
+.fitur__parallax__container {
+    width: 100%;
+}
+
+.fitur__parallax__title-item {
+    position: relative;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.fitur__parallax__title-item:after {
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 5px;
+    background-color: #00a046;
+    border-radius: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
+.fitur__body-item {
+    margin-top: 100px !important;
+}
+
+.body-item__box-content {
+    margin-top: 50px !important;
+}
+
+.box-content__left-item {
+    position: relative;
+}
+
+.left-item__icon-item {
+    position: absolute;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.icon-item__size {
+    height: auto;
+    width: 50%;
+}
+
+.left-item__svg-item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-item__title-content {
+    position: relative;
+}
+
+.right-item__title-content:after {
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 5px;
+    background-color: #00a046;
+    border-radius: 20px;
+    bottom: 0;
+}
+
+.title-content__style {
+    font-size: 22px;
+    color: #000;
+    font-weight: bold;
+}
+
+.right-item__item-content {
+    margin-top: 20px;
+}
+
+.item-content__style {
+    color: #4A4A4A;
+    line-height: 30px;
+}

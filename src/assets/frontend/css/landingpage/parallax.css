@@ -1,0 +1,84 @@
+.parallax {
+    position: relative;
+}
+
+.parallax.parallax-bg {
+    background-image: url('../../images/background_home_atas.jpg');
+    background-size: cover;
+    min-height: 800px;
+    height: auto;
+}
+
+.parallax__bg-shadow {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: black;
+    opacity: 0.6;
+}
+
+.parallax__box-content {
+    position: relative;
+    width: 100%;
+}
+
+.box-content__left-item {
+    max-width: 95% !important;
+}
+
+.left-item__item-slider {
+    height: 100%;
+    width: auto;
+}
+
+.box-content__right-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-item__header-item {
+    display: flex;
+    align-items: center;
+}
+
+.header-item__title-item {
+    font-size: 24px;
+    color: #fff;
+    margin-left: 20px;
+}
+
+.right-item__body-item {
+    margin-top: 30px;
+}
+
+.body-item__item {
+    text-align: left;
+    color: #fff;
+    line-height: 30px;
+}
+
+.right-item__footer-item {
+    display: flex;
+    justify-content: left;
+    margin-top: 30px;
+}
+
+.footer-item__button-register {
+    border: 3px solid #12b505;
+    border-radius: 30px;
+    color: #fff !important;
+    font-size: 24px;
+    background-color: #12b505;
+    cursor: pointer;
+    height: 50px;
+    width: 150px;
+}
+
+.mt-custom {
+    margin-top: 100px !important;
+}
+
+.mb-custom {
+    margin-bottom: 50px !important;
+}

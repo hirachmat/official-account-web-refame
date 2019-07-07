@@ -1,0 +1,132 @@
+.hubungikami {
+    position: relative;
+}
+
+.hubungikami__parallax-bg {
+    position: relative;
+    background-image: url('../../images/hubungi_kami.jpg');
+    background-size: cover !important;
+    min-height: 1150px;
+    height: auto !important;
+    background-repeat: no-repeat !important;
+}
+
+.hubungikami__parallax__container {
+    height: 100%;
+    width: 100%;
+}
+
+.container__card {
+    display: flex;
+    justify-content: center;
+    margin-top: -900px;
+}
+
+.card__box {
+    width: 75%;
+    background: rgb(255, 255, 255, 0.9);
+    border-radius: 5px;
+    box-shadow: 0 10px 40px 0 rgba(202, 224, 221, 0.4);
+}
+
+.card__box__title-item {
+    position: relative;
+    font-size: 24px;
+    font-weight: bold;
+    color: #4A4A4A;
+    text-align: center;
+    height: 60px;
+}
+
+.card__box__title-item:after {
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 5px;
+    background-color: #00a046;
+    border-radius: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
+.card__box__line-dotted {
+    border: none;
+    border-top: 3px dotted #CCCCCC;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.card__box__content-item {
+    margin-top: 50px;
+    font-size: 16px;
+    text-align: center;
+    line-height: 30px;
+    color: #9B9B9B;
+    font-weight: bold;
+}
+
+.card__box__form {
+    margin-top: 50px;
+}
+
+.form__label-item {
+    color: #354052;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.form__input-custom {
+    background-color: #e1f4f1fa !important;
+    border: 1px solid #E1F4F1 !important;
+    border-radius: 5px 0 0 5px !important;
+    color: #354052 !important;
+    font-weight: bold !important;
+}
+
+.form__footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.from__footer__button {
+    border: 1px solid #249533;
+    border-radius: 23px;
+    box-shadow: 0 0 20px 0 rgba(0, 160, 70, 0.59);
+    height: 46px;
+    background-color: #00A046;
+    color: #fff !important;
+    cursor: pointer;
+    font-weight: bold !important;
+    text-transform: capitalize !important;
+}
+
+.uk-has-error {
+    color: red;
+    font-size: 12px;
+}
+
+.hubungikami__modal__dialog {
+    border-radius: 10px;
+}
+
+.hubungikami__modal__title-item {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.hubungikami__modal__content-item {
+    margin-top: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.hubungikami__modal__footer-content {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}

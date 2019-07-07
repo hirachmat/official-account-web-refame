@@ -1,0 +1,137 @@
+.footer {
+    margin-top: 50px;
+    background-color: #f5f5f5;
+}
+
+.footer__download-container {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.download-container__title-item {
+    font-size: 22px;
+    color: #000;
+    font-weight: bold;
+}
+
+.download-container__title-item span {
+    font-weight: 100;
+}
+
+.download-link__link {
+    position: relative;
+}
+
+.download-link__link:after {
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    right: 7px;
+    content: " ";
+    height: 15px;
+    background: transparent;
+    border-radius: 35px;
+    box-shadow: 0 15px 30px 0 rgba(0,0,0,.5);
+    z-index: 1;
+}
+
+.download-link__appstore-btn {
+    width: 125px;
+    height: auto;
+}
+
+.download-link__playstore-btn {
+    width: 125px;
+    height: auto;
+}
+
+.footer__information-hiapp {
+    height: auto;
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.information-hiapp__container__title-item {
+    position: relative;
+    font-size: 22px;
+    font-weight: bold;
+    color: #000;
+    height: 50px;
+}
+
+.information-hiapp__container__title-item:after {
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 5px;
+    background-color: #00a046;
+    border-radius: 20px;
+    left: 0;
+    bottom: 0;
+}
+
+.information-hiapp__container__content-item {
+    margin-top: 20px;
+    color: #4A4A4A;
+}
+
+.content-item__sosmed-container {
+    padding: 0px 5px 0px 5px;
+}
+
+.content-item__sosmed-icon {
+    width: 30px;
+    height: auto;
+}
+
+.footer__line {
+    margin-top: 50px;
+    border: none;
+    border-top: 1px dotted #eeeeee;
+    color: #eeeeee;
+    background-color: #eeeeee;
+    height: 1px;
+}
+
+.term-condition__container {
+    display: flex !important;
+    align-items: center;
+    padding: 15px 0px 15px 0px !important;
+}
+
+.left-item__content-item {
+    color: #000;
+    font-size: 14px;
+}
+
+.left-item__content-item-custom {
+    color: #000;
+    font-size: 14px;
+    text-align: center;
+}
+
+.container__right-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.container__right-item-custom {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-item__content-item {
+    color: #000;
+    font-size: 14px;
+}
+
+.mr15 {
+    margin-right: 15px;
+}

@@ -3,13 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@syncfusion/ej2-react-calendars": "^17.1.51",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
     "react": "^16.8.6",
+    "react-app-env": "^1.2.3",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-pin-input": "^0.9.0",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "react-select": "^3.0.4",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "serve": "^11.0.2",
+    "uikit": "^3.1.6"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:development": "env-path -p .env.development react-scripts build",
+    "build:staging": "env-path -p .env.staging react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -1,0 +1,52 @@
+.manfaat {
+    position: relative;
+    margin-top: 50px;
+}
+
+.manfaat__title-item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    height: 80px;
+}
+
+.manfaat__title-item:after {
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 5px;
+    background-color: #00a046;
+    border-radius: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
+.manfaat__body-item {
+    margin-top: 100px !important;
+}
+
+.body-item__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.box__icon-item {
+    height: 140px;
+}
+
+.body-item__title-item {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.body-item__content-item {
+    text-align: center;
+    line-height: 30px;
+    color: #4A4A4A;
+}
