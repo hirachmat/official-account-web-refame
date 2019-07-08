@@ -1,10 +1,10 @@
-.hubungikami {
+.daftar {
     position: relative;
 }
 
-.hubungikami__parallax-bg {
+.daftar__parallax-bg {
     position: relative;
-    background-image: url('../../images/hubungi_kami.jpg');
+    background-image: url('../../images/main_background_daftar.png');
     background-size: cover !important;
     min-height: 1150px;
     height: auto !important;
@@ -74,60 +74,50 @@
     margin-top: 50px;
 }
 
-.form__label-item {
-    color: #354052;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.form__input-custom {
+/* select2 */
+.css-yk16xz-control {
     background-color: #e1f4f1fa !important;
-    border: 1px solid #E1F4F1 !important;
+    border: 1px solid #e1f4f1fa !important;
     border-radius: 5px 0 0 5px !important;
+}
+.css-1g48xl4-IndicatorsContainer {
+    background-color: #fff !important;
+}
+.css-1okebmr-indicatorSeparator {
+    width: 0px !important;
+}
+/* .css-vj8t7z {
+    background-color: #e1f4f1fa !important;
+    border: 1px solid #e1f4f1fa !important;
+    border-radius: 5px 0 0 5px !important;
+}
+
+.css-vj8t7z:focus {
+    background-color: #e1f4f1fa !important;
+    border: 1px solid #e1f4f1fa !important;
+    border-radius: 5px 0 0 5px !important;
+}
+
+.css-1wy0on6 {
+    background: #fff !important;
+}
+
+.css-d8oujb {
+    border: .5px solid #e1f4f1fa !important;
+    margin-bottom: unset !important;
+    margin-top: unset !important;
+}
+
+.css-xp4uvy {
+    font-size: 16px !important;
     color: #354052 !important;
-    font-weight: bold !important;
+    font-weight: 600 !important;
 }
 
-.form__footer {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.from__footer__button {
-    border: 1px solid #249533;
-    border-radius: 23px;
-    box-shadow: 0 0 20px 0 rgba(0, 160, 70, 0.59);
-    height: 46px;
-    background-color: #00A046;
-    color: #fff !important;
-    cursor: pointer;
-    font-weight: bold !important;
-    text-transform: capitalize !important;
-}
-
-.uk-has-error {
-    color: red;
-    font-size: 12px;
-}
-
-.hubungikami__modal__dialog {
-    border-radius: 10px;
-}
-
-.hubungikami__modal__title-item {
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.hubungikami__modal__content-item {
-    margin-top: 30px;
-    text-align: center;
-    line-height: 30px;
-}
-
-.hubungikami__modal__footer-content {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-}
+.css-1492t68 {
+    font-size: 16px !important;
+    color: #354052 !important;
+    font-weight: 600 !important;
+    opacity: 0.5 !important;
+} */
+/* select2 */

@@ -26,7 +26,10 @@ class Footer extends Component {
                 <div className="footer__information-hiapp uk-container">
                     <div className="uk-grid-small information-hiapp__body-item" uk-grid="true">
                         <div className="uk-width-1-1@s uk-width-1-3@m uk-width-1-3@l information-hiapp__container">
-                            <div className="information-hiapp__container__title-item">Follow Us on</div>
+                            <div className="information-hiapp__container__title-content">
+                                <p className="information-hiapp__container__title-item">Follow Us on</p>
+                            </div>
+                            
                             <div className="information-hiapp__container__content-item">
                                 <a href="#beranda" className="content-item__sosmed-container">
                                     <img src={ IG } alt="icon-ig" className="content-item__sosmed-icon"/>
@@ -40,11 +43,17 @@ class Footer extends Component {
                             </div>
                         </div>
                         <div className="uk-width-1-1@s uk-width-1-3@m uk-width-1-3@l information-hiapp__container">
-                            <div className="information-hiapp__container__title-item">Headquarter Office</div>
+                            {/* <div className="information-hiapp__container__title-item">Headquarter Office</div> */}
+                            <div className="information-hiapp__container__title-content">
+                                <p className="information-hiapp__container__title-item">Headquarter Office</p>
+                            </div>
                             <div className="information-hiapp__container__content-item">The East Tower. 33th Floor Unit 1-5 Jalan Dr. Ide Anak Agung Gede Agung Kav E3.2 No.1. Kuningan Timur Setiabudi.</div>
                         </div>
                         <div className="uk-width-1-1@s uk-width-1-3@m uk-width-1-3@l information-hiapp__container">
-                            <div className="information-hiapp__container__title-item">Research And Development</div>
+                            {/* <div className="information-hiapp__container__title-item">Research And Development</div> */}
+                            <div className="information-hiapp__container__title-content">
+                                <p className="information-hiapp__container__title-item">Research And Development</p>
+                            </div>
                             <div className="information-hiapp__container__content-item">Jalan Lempong Sari No 3F Sariharjo, Ngaglik, Kabupaten Sleman.</div>
                         </div>
                     </div>

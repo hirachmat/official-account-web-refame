@@ -3,6 +3,8 @@ import { Route, withRouter } from "react-router-dom";
 import { connect } from 'react-redux'
 import LandingPage from '../pages/landingpage'
 import HubungiKami from '../pages/hubungikami'
+import Bantuan from '../pages/bantuan'
+import Daftar from '../pages/daftar'
 
 class Router extends Component {
     constructor(props) {
@@ -17,6 +19,8 @@ class Router extends Component {
             <React.Fragment>
                 <Route exact path="/" component={ LandingPage } />
                 <Route exact path="/hubungi-kami" component={ HubungiKami } />
+                <Route exact path="/bantuan" component={ Bantuan } />
+                <Route exact path="/daftar" component={ Daftar } />
                 {/* <Route exact path="/daftar" component={ Daftar } />
                 <Route exact path="/hubungi-kami" component={ HubungiKami } />
                 <Route exact path="/bantuan" component={ Bantuan } />

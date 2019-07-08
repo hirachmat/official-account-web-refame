@@ -45,7 +45,7 @@
 .header-item__title-item {
     font-size: 24px;
     color: #fff;
-    margin-left: 20px;
+    padding: 0px 0px 0px 7px;
 }
 
 .right-item__body-item {

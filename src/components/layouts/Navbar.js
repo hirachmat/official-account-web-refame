@@ -6,6 +6,8 @@ import LogoGreen from '../../assets/frontend/images/logo_hiapp_green.png'
 
 class Navbar extends Component {
     state = {
+        scrollTo: '#beranda',
+        offsetTo: 0,
         isSticky: false
     }
 
@@ -17,11 +19,41 @@ class Navbar extends Component {
         window.removeEventListener('scroll', this.handleScroll)
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.location.pathname !== prevProps.location.pathname){
+            setTimeout(() => {
+                this.setState({ scrollTo: localStorage.getItem('scrollTo'), offsetTo: localStorage.getItem('offsetTo') }, () => {
+                    let scrollTo = document.getElementById('scrollTo')
+                    scrollTo.click()
+
+                    localStorage.removeItem('scrollTo')
+                    localStorage.removeItem('offsetTo')
+                })
+            }, 100)
+        }
+    }
+
     handleScroll = () => {
         if(window.scrollY > 70)
             this.setState({ isSticky: true })
         else
             this.setState({ isSticky: false })    
+    }
+
+    getNavLinkClass = (path) => {
+        return this.props.location.pathname === path ? 'uk-active' : '';
+    }
+
+    handleChangePage = (path, scrollTo, offsetTo) => {
+        localStorage.setItem('scrollTo', scrollTo)
+        localStorage.setItem('offsetTo', offsetTo)
+
+        this.props.history.push(path)
+    }
+
+    goToWebsite = (e) => {
+        e.preventDefault()
+        window.location.href = process.env.REACT_APP_HOST_OAM
     }
 
     render() {
@@ -45,15 +77,28 @@ class Navbar extends Component {
                         </div>
                         <div className="uk-navbar-center wrapper__center-item"></div>
                         <div className="uk-navbar-right wrapper__right-item">
-                            <ul className="uk-navbar-nav uk-visible@l" uk-scrollspy-nav="closest: li; scroll: true; offset: 100">
-                                <li className="uk-active"><a href="#beranda" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} uk-scroll="true">Beranda</a></li>
-                                <li><a href="#manfaat" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} uk-scroll="true" offset="90">Manfaat</a></li>
-                                <li><a href="#fitur" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} uk-scroll="true" offset="60">Fitur</a></li>
-                                <li><a href="#" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`}>Hubungi Kami</a></li>
-                                <li><a href="#" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`}>Bantuan</a></li>
-                                <li><a href="#" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`}>Daftar</a></li>
-                                <li><a href="#" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`}>Masuk</a></li>
-                            </ul>
+
+                            { this.props.location.pathname === '/' ? (
+                                <ul className="uk-navbar-nav uk-visible@l" uk-scrollspy-nav="closest: li; scroll: true; offset: 100">
+                                    <li><a href="#beranda" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} uk-scroll="true">Beranda</a></li>
+                                    <li><a href="#manfaat" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} uk-scroll="true" offset="90">Manfaat</a></li>
+                                    <li><a href="#fitur" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} uk-scroll="true" offset="60">Fitur</a></li>
+                                    <li className={ this.getNavLinkClass("/hubungi-kami") }><a href="#hubungikami" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} onClick={ () => this.handleChangePage('/hubungi-kami', '#hubungikami', 0) }>Hubungi Kami</a></li>
+                                    <li className={ this.getNavLinkClass("/bantuan") }><a href="#bantuan" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} onClick={ () => this.handleChangePage('/bantuan', '#bantuan', 0) }>Bantuan</a></li>
+                                    <li className={ this.getNavLinkClass("/daftar") }><a href="#daftar" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} onClick={ () => this.handleChangePage('/daftar', '#daftar', 0) }>Daftar</a></li>
+                                    <li><a href="#" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} onClick={(e) => this.goToWebsite(e)}>Masuk</a></li>
+                                </ul>
+                            ) : (
+                                <ul className="uk-navbar-nav uk-visible@l" uk-scrollspy-nav="closest: li; scroll: true; offset: 100">
+                                    <div className="li-navbar-custom"><a href="#beranda" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' } no-underline`} onClick={ () => this.handleChangePage('/', '#beranda', 0) }>Beranda</a></div>
+                                    <div className="li-navbar-custom"><a href="#manfaat" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' } no-underline`} onClick={ () => this.handleChangePage('/', '#manfaat', 90) }>Manfaat</a></div>
+                                    <div className="li-navbar-custom"><a href="#fitur" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' } no-underline`} onClick={ () => this.handleChangePage('/', '#fitur', 60) }>Fitur</a></div>
+                                    <li className={ this.getNavLinkClass("/hubungi-kami") }><a href="#hubungikami" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} onClick={ () => this.handleChangePage('/hubungi-kami', '#hubungikami', 0) }>Hubungi Kami</a></li>
+                                    <li className={ this.getNavLinkClass("/bantuan") }><a href="#bantuan" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} onClick={ () => this.handleChangePage('/bantuan', '#bantuan', 0) }>Bantuan</a></li>
+                                    <li className={ this.getNavLinkClass("/daftar") }><a href="#daftar" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} onClick={ () => this.handleChangePage('/daftar', '#daftar', 0) }>Daftar</a></li>
+                                    <li><a href="#" className={`${ this.state.isSticky ? 'right-item__item-title-green' : 'right-item__item-title' }`} onClick={(e) => this.goToWebsite(e)}>Masuk</a></li>
+                                </ul>
+                            ) }
 
                             <div className="uk-hidden@l">
                                 <a href="#" uk-toggle="target: #offcanvas-flip">
@@ -80,12 +125,14 @@ class Navbar extends Component {
                             <li className="uk-active divider"><a href="#manfaat" uk-scroll="true" offset="90">Manfaat</a></li>
                             <li className="uk-active divider"><a href="#fitur" uk-scroll="true" offset="60">Fitur</a></li>
                             <li className="uk-active divider"><a href="/hubungi-kami">Hubungi Kami</a></li>
-                            <li className="uk-active divider"><a href="#">Bantuan</a></li>
-                            <li className="uk-active divider"><a href="#">Daftar</a></li>
-                            <li className="uk-active divider"><a href="#">Masuk</a></li>
+                            <li className="uk-active divider"><a href="/bantuan">Bantuan</a></li>
+                            <li className="uk-active divider"><a href="/daftar">Daftar</a></li>
+                            <li className="uk-active divider"><a href="/masuk" onClick={(e) => this.goToWebsite(e)}>Masuk</a></li>
                         </ul>
                     </div>
                 </div>
+
+                <a href={ this.state.scrollTo } id="scrollTo" uk-scroll="true" offset={ this.state.offsetTo }> </a>
             </div>
         )
     }

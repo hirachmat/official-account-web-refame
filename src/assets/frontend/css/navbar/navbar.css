@@ -46,3 +46,20 @@ li.uk-active a:after {
     padding-top: 10px;
     border-top: 1px solid #e5e5e5;
 }
+
+.li-navbar-custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 80px;
+    padding: 0 15px;
+    font-size: 0.875rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.no-underline {
+    text-decoration: none !important;
+}

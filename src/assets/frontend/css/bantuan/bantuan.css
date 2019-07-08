@@ -1,0 +1,104 @@
+.parallax {
+    position: relative;
+}
+
+.bantuan__parallax-bg {
+    position: relative;
+    background-image: url('../../images/main_background_bantuan.jpg');
+    background-size: cover !important;
+    min-height: 1150px;
+    height: auto !important;
+    background-repeat: no-repeat !important;
+}
+
+.container__card {
+    display: flex;
+    justify-content: center;
+    margin-top: -900px;
+}
+
+.card__box {
+    width: 75%;
+    background: rgb(255, 255, 255, 0.9);
+    border-radius: 5px;
+    box-shadow: 0 10px 40px 0 rgba(202, 224, 221, 0.4);
+}
+
+.card__box__title-item {
+    position: relative;
+    font-size: 24px;
+    font-weight: bold;
+    color: #4A4A4A;
+    text-align: center;
+    min-height: 60px;
+    height: auto;
+}
+
+.card__box__title-item:after {
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 5px;
+    background-color: #00a046;
+    border-radius: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
+.card__box__line-dotted {
+    border: none;
+    border-top: 3px dotted #CCCCCC;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.card__box__content-item {
+    margin-top: 50px;
+    font-size: 16px;
+    text-align: center;
+    line-height: 30px;
+    color: #9B9B9B;
+    font-weight: bold;
+}
+
+.container__card__body-content {
+    margin-top: 50px;
+}
+
+.accordion__item {
+    background-color: #EDF9F7;
+    border: 1px solid #E1F4F1;
+    border-radius: 5px;
+    margin-top: 0 !important;
+}
+
+.accordion__item__title-item {
+    padding: 15px;
+    font-size: 18px !important;
+    color: #686868 !important;
+    font-weight: 600;
+}
+
+.accordion__item__content-item {
+    padding: 20px;
+    background-color: #e1f4f1ad;
+    color: #4A4A4A;
+    font-weight: 600;
+    margin-top: 0;
+}
+
+.uk-open > .uk-accordion-title::before {
+    background-image: url('../../images/up_arrow.png') !important;
+}
+
+.uk-accordion-title::before {
+    background-image: url('../../images/down_arrow.png') !important;
+}
+
+.mt10 {
+    margin-top: 10px;
+}

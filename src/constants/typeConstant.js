@@ -1,0 +1,2 @@
+export const GET_TYPE_LIST = 'GET_TYPE_LIST'
+export const GET_TYPE_LIST_FAILURE = 'GET_TYPE_LIST_FAILURE'
