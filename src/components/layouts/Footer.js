@@ -11,7 +11,7 @@ class Footer extends Component {
 
     render() {
         return(
-            <div className="footer">
+            <div className="footer" id="downloadLink">
                 <div className="footer__download-container uk-container">
                     <p className="download-container__title-item">It's Free <span>Download Hi App now</span></p>
                     <div className="download-container__download-link">

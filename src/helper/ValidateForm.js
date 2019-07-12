@@ -109,37 +109,43 @@ function validateRuleFunc(ruleValidate, value) {
     return error.indexOf(false) === -1
 }
 
-export default {
-    validateField
+function setRule(e, ruleValidate, required, sectionName, formErrors, formValid) {
+    const name = e.target.name
+    const value = e.target.value
+    const type = e.target.type
+    const title = e.target.title
+
+    const rule = {
+        name: name,
+        value: value,
+        type: type,
+        title: title,
+        sectionName: sectionName,
+        ruleValidate: ruleValidate,
+        required: required,
+        formErrors: formErrors,
+        formValid: formValid
+    }
+
+    return rule
 }
 
-// function validateField(name, value, type) {
-//     let formErrors = this.state.formErrors
-//     let inputValid = this.state.inputValid
+function setErrorValidate(formErrors) {
+    const error = []
+    Object.keys(formErrors.section).forEach(item => {
+        Object.keys(formErrors.section[item]).forEach(itemChild => {
+            if(itemChild === 'location')
+                Object.keys(formErrors.section[item][itemChild]).map(itemLocation => error.push(formErrors.section[item][itemChild][itemLocation] === ''))
+            else
+                error.push(formErrors.section[item][itemChild] === '')
+        })
+    })
 
-//     switch(type) {
-//         case 'email':
-//             inputValid[name] = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
-//             if(this.state[name] !== '')
-//                 formErrors[name] = inputValid[name] ? '' : ` ${name} is invalid`
-//             else
-//                 formErrors[name] = ` ${name} is required`
-//             break;
-//         case 'text':
-//             formErrors[name] = this.state[name] !== '' ? '' : ` ${name} is required`
-//         default:
-//             break;
-//     }
+    return error
+}
 
-//     this.setState({ formErrors: formErrors, inputValid: inputValid }, () => {
-//         this.validateForm()
-//     })
-// }
-
-// function validateForm() {
-//     let error = []
-//     Object.keys(this.state.inputValid).forEach((item, index) => {
-//         error.push(this.state.inputValid[item] !== null)
-//     })
-//     this.setState({ formValid: error.indexOf(false) == -1 })
-// }
+export default {
+    validateField,
+    setRule,
+    setErrorValidate
+}

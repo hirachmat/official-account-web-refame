@@ -21,10 +21,7 @@ class Router extends Component {
                 <Route exact path="/hubungi-kami" component={ HubungiKami } />
                 <Route exact path="/bantuan" component={ Bantuan } />
                 <Route exact path="/daftar" component={ Daftar } />
-                {/* <Route exact path="/daftar" component={ Daftar } />
-                <Route exact path="/hubungi-kami" component={ HubungiKami } />
-                <Route exact path="/bantuan" component={ Bantuan } />
-                <ProtectRegisterSuccess exact path="/sukses" component={ RegistrasiSukses } /> */}
+                {/* <ProtectRegisterSuccess exact path="/sukses" component={ RegistrasiSukses } /> */}
             </React.Fragment>
         );
     }

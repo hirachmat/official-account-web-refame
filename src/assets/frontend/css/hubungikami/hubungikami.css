@@ -80,12 +80,12 @@
     font-weight: bold;
 }
 
-.form__input-custom {
-    background-color: #e1f4f1fa !important;
-    border: 1px solid #E1F4F1 !important;
-    border-radius: 5px 0 0 5px !important;
-    color: #354052 !important;
-    font-weight: bold !important;
+.uk-input.form__input-custom, .uk-textarea.form__input-custom {
+    background-color: #e1f4f1fa;
+    border: 1px solid #E1F4F1;
+    border-radius: 5px 0 0 5px;
+    color: #354052;
+    font-weight: bold;
 }
 
 .form__footer {

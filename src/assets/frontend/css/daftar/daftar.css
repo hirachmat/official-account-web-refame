@@ -22,7 +22,7 @@
     margin-top: -900px;
 }
 
-.card__box {
+.uk-card-body.card__box {
     width: 75%;
     background: rgb(255, 255, 255, 0.9);
     border-radius: 5px;
@@ -74,6 +74,80 @@
     margin-top: 50px;
 }
 
+.form__section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.uk-input.form__input-custom, .uk-textarea.form__input-custom {
+    background-color: #e1f4f1fa;
+    border: 1px solid #E1F4F1;
+    border-radius: 5px 0 0 5px;
+    color: #354052;
+    font-weight: bold;
+}
+
+.uk-form-label.section__label-item {
+    padding: 15px 0px 15px 0px;
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+}
+
+.section__label-item:after {
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 5px;
+    background-color: #00a046;
+    border-radius: 20px;
+    left: 0;
+    bottom: 0;
+}
+
+.form__with-icon {
+    width: 100%;
+}
+
+.uk-form-icon.form__with-icon__label-item {
+    border-right: 1px solid #354052;
+    border-block-start: 8p;
+    color: #354052;
+    font-weight: bold;
+}
+
+.uk-button.form__button-upload {
+    border: 1px solid #249533;
+    border-radius: 23px;
+    box-shadow: 0 0 20px 0 rgba(0, 160, 70, 0.59);
+    height: 46px;
+    background-color: #00A046;
+    color: #fff;
+    cursor: pointer;
+    text-transform: unset;
+    font-weight: 800;
+    margin-top: .5rem;
+}
+
+.uk-form-label.form__label-item {
+    color: #354052;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.uk-form-label.form__label-item-small {
+    font-size: 12px;
+}
+
+.uk-form-label.form__notify-is-registered {
+    font-size: 16px;
+    color: #9B9B9B;
+}
+
+.form__notify-is-registered-link {
+    color: #12b505;
+}
+
 /* select2 */
 .css-yk16xz-control {
     background-color: #e1f4f1fa !important;
@@ -121,3 +195,55 @@
     opacity: 0.5 !important;
 } */
 /* select2 */
+
+.spinner-loading {
+    background: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+/* modal */
+.modal__header-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal.no-border-bottom {
+    border-bottom: none;
+}
+
+.modal.no-border-top {
+    border-top: none;
+}
+
+.content-center {
+    display: flex;
+    justify-content: center;
+}
+
+.no-border-bottom {
+    border-bottom: none;
+}
+
+.no-border-top {
+    border-top: none;
+}
+
+.notify-is-registered {
+    font-size: 16px;
+    color: #9B9B9B;
+}
+
+.button-link {
+    color: #12b505;
+    font-weight: 600;
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+/* modal */

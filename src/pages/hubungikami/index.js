@@ -107,7 +107,7 @@ class HubungiKami extends Component {
             // console.log(responseJson)
             UIkit.modal(modal).show()
             let newState = Object.assign({}, this.state)
-            newState.form.section.general.name = ""
+            newState.form.section.general.nama = ""
             newState.form.section.general.email = ""
             newState.form.section.general.judul = ""
             newState.form.section.general.pesan = ""
