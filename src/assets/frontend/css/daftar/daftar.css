@@ -35,7 +35,6 @@
     font-weight: bold;
     color: #4A4A4A;
     text-align: center;
-    min-height: 60px;
     height: auto;
 }
 
@@ -154,47 +153,14 @@
     border: 1px solid #e1f4f1fa !important;
     border-radius: 5px 0 0 5px !important;
 }
+
 .css-1g48xl4-IndicatorsContainer {
     background-color: #fff !important;
 }
+
 .css-1okebmr-indicatorSeparator {
     width: 0px !important;
 }
-/* .css-vj8t7z {
-    background-color: #e1f4f1fa !important;
-    border: 1px solid #e1f4f1fa !important;
-    border-radius: 5px 0 0 5px !important;
-}
-
-.css-vj8t7z:focus {
-    background-color: #e1f4f1fa !important;
-    border: 1px solid #e1f4f1fa !important;
-    border-radius: 5px 0 0 5px !important;
-}
-
-.css-1wy0on6 {
-    background: #fff !important;
-}
-
-.css-d8oujb {
-    border: .5px solid #e1f4f1fa !important;
-    margin-bottom: unset !important;
-    margin-top: unset !important;
-}
-
-.css-xp4uvy {
-    font-size: 16px !important;
-    color: #354052 !important;
-    font-weight: 600 !important;
-}
-
-.css-1492t68 {
-    font-size: 16px !important;
-    color: #354052 !important;
-    font-weight: 600 !important;
-    opacity: 0.5 !important;
-} */
-/* select2 */
 
 .spinner-loading {
     background: none;
@@ -245,5 +211,10 @@
     cursor: pointer;
     font-size: 0.875rem;
     line-height: 1.5;
+}
+
+.button-link.disabled {
+    color: hsl(0,0%,50%);
+    cursor: not-allowed;
 }
 /* modal */

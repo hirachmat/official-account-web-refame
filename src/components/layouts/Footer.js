@@ -31,13 +31,13 @@ class Footer extends Component {
                             </div>
                             
                             <div className="information-hiapp__container__content-item">
-                                <a href="#beranda" className="content-item__sosmed-container">
+                                <a href="https://www.instagram.com/hiappid/" target="_blank" rel="noopener noreferrer" className="content-item__sosmed-container">
                                     <img src={ IG } alt="icon-ig" className="content-item__sosmed-icon"/>
                                 </a>
-                                <a href="#beranda" className="content-item__sosmed-container">
+                                <a href="https://twitter.com/hiapp_id" target="_blank" rel="noopener noreferrer" className="content-item__sosmed-container">
                                     <img src={ Twitter } alt="icon-twitter" className="content-item__sosmed-icon"/>
                                 </a>
-                                <a href="#beranda" className="content-item__sosmed-container">
+                                <a href="https://www.facebook.com/HiAppIndonesia/" target="_blank" rel="noopener noreferrer" className="content-item__sosmed-container">
                                     <img src={ FB } alt="icon-fb" className="content-item__sosmed-icon"/>
                                 </a>
                             </div>

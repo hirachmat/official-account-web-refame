@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import AsyncSelect from 'react-select/async'
-import Select from 'react-select'
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
 import '../../assets/frontend/css/daftar/datepickerStyle.css'
 import moment from 'moment'
 import * as categoryActions from '../../actions/categoryActions'
 import * as locationActions from '../../actions/locationActions'
+import InputText from '../../components/form/inputText'
+import InputTextArea from '../../components/form/inputTextArea'
+import InputNumber from '../../components/form/inputNumber'
+import InputSelect from '../../components/form/inputSelect'
+import InputAsyncSelect from '../../components/form/inputAsyncSelect'
 
 class DataSection extends Component {
     state = {}
@@ -15,10 +18,6 @@ class DataSection extends Component {
         this.props.GetCategoryList().catch(() => {
             alert('Gagal mengambil data list category')
         })
-    }
-
-    handleInput(e, state, ruleValidate, required, type, section) {
-        this.props.handleChildPropsChange(e, state, ruleValidate, required, type, section)
     }
 
     renderErrorMessage(error, name, type) {
@@ -42,153 +41,70 @@ class DataSection extends Component {
         this.datePickerRef.show()
     }
 
+    handleInputComponent = (data) => {
+        this.props.handleInputComponent(data)
+    }
+
+    handleInputSelectComponent = (data) => {
+        this.props.handleInputSelectComponent(data)
+    }
+
     render() {
         return(
             <div>
-                <div className="uk-margin" id="field-organisasi-name">
-                    <label className="uk-form-label form__label-item" htmlFor="nama">Nama { this.props.propsData.form.type }*</label>
-                    <div className="uk-form-controls">
-                        <input className="uk-input form__input-custom" 
-                        id="field-nama" type="text" title={ `Nama ${ this.props.propsData.form.type }` } name="name" value={ this.props.propsData.form.section.organisasi.name }
-                        autoComplete="off" placeholder=""
-                        onChange={ 
-                            (e) => this.handleInput(e, 'name', [
-                                {
-                                    typeValidate: 'regex',
-                                    rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
-                                },
-                                {
-                                    typeValidate: 'text',
-                                    min: 0,
-                                    max: 100
-                                }
-                        ], true, 'text', 'organisasi') }/>
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.name, 'nama', this.props.propsData.form.type.toLowerCase()) }
-                </div>
-                <div className="uk-margin" id="field-organisasi-category">
-                    <label className="uk-form-label form__label-item" htmlFor="kategori">Kategori*</label>
-                    <div className="uk-form-controls">
-                        <Select
-                            placeholder="Pilih Tipe yang Sesuai"
-                            className="basic-single"
-                            classNamePrefix="select"
-                            isSearchable={false}
-                            name="category"
-                            options={this.props.category.list}
-                            onChange={ (e) => this.handleInput(e, 'category', [], true, 'select', 'organisasi') }
-                        />
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.category, 'kategori', "") }
-                </div>
-                <div className="uk-margin" id="field-organisasi-description">
-                    <label className="uk-form-label form__label-item">Deskripsi { this.props.propsData.form.type }*</label>
-                    <div className="uk-form-controls">
-                        <textarea className="uk-textarea form__input-custom" id="description" name="description" rows={8} placeholder="" value={ this.props.propsData.form.section.organisasi.description }
-                        onChange={ (e) => this.handleInput(e, 'description', [
-                            {
-                                typeValidate: 'text',
-                                min: 10,
-                                max: 1000000
-                            }
-                        ], true, 'text', 'organisasi') }/>
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.description, 'deskripsi', this.props.propsData.form.type.toLowerCase()) }
-                </div>
-                <div className="uk-margin" id="field-organisasi-address">
-                    <label className="uk-form-label form__label-item">Alamat { this.props.propsData.form.type }*</label>
-                    <div className="uk-form-controls">
-                        <textarea className="uk-textarea form__input-custom" id="address" name="address" rows={8} placeholder="" value={ this.props.propsData.form.section.organisasi.address }
-                        onChange={ (e) => this.handleInput(e, 'address', [
-                            {
-                                typeValidate: 'text',
-                                min: 10,
-                                max: 1000000
-                            }
-                        ], true, 'text', 'organisasi') }/>
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.address, 'alamat', this.props.propsData.form.type.toLowerCase()) }
-                </div>
-                <div className="uk-margin" id="field-organisasi-country">
-                    <label className="uk-form-label form__label-item" htmlFor="country">Lokasi*</label>
-                    <div className="uk-form-controls">
-                        <AsyncSelect
-                            placeholder="Pilih negara"
-                            cacheOptions
-                            loadOptions={this.getCountry}
-                            defaultOptions
-                            name="country"
-                            onChange={ (e) => this.handleInput(e, 'country', [], true, 'select', 'organisasi') }
-                        />
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.location.country, 'negara', "") }
-                </div>
-                <div className="uk-margin" id="field-organisasi-province">
-                    <label className="uk-form-label form__label-item" htmlFor="kategori">Provinsi*</label>
-                    <div className="uk-form-controls">
-                        <Select
-                            placeholder="Pilih provinsi"
-                            className="basic-single"
-                            classNamePrefix="select"
-                            isSearchable={false}
-                            name="province"
-                            options={this.props.location.province.list}
-                            onChange={ (e) => this.handleInput(e, 'province', [], true, 'select', 'organisasi') }
-                        />
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.location.province, 'provinsi', "") }
-                </div>
-                <div className="uk-margin" id="field-organisasi-city">
-                    <label className="uk-form-label form__label-item" htmlFor="kota">Kota*</label>
-                    <div className="uk-form-controls">
-                        <Select
-                            placeholder="Pilih kota"
-                            className="basic-single"
-                            classNamePrefix="select"
-                            isSearchable={false}
-                            name="city"
-                            options={this.props.location.city.list}
-                            onChange={ (e) => this.handleInput(e, 'city', [], true, 'select', 'organisasi') }
-                        />
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.location.province, 'provinsi', "") }
-                </div>
-                <div className="uk-margin" id="field-organisasi-phone">
-                    <label className="uk-form-label form__label-item" htmlFor="phone">No Telpon*</label>
-                    <div className="uk-form-controls uk-inline form__with-icon">
-                        <span className="uk-form-icon form__with-icon__label-item">62</span>
-                        <input className="uk-input form__input-custom" id="phone" name="phone" type="text" placeholder="" autoComplete="off" value={ this.props.propsData.form.section.organisasi.phone } 
-                        onChange={ 
-                            (e) => this.handleInput(e, 'phone', [
-                                {
-                                    typeValidate: 'regex',
-                                    rule: /^\d+$|^$/,
-                                    min: 5,
-                                    max: 10
-                                    // rule: /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/g //regex untuk nomer telpon dan handphone
-                                }
-                            ], true, 'number', 'organisasi') }/>
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.phone, 'no telpon', "") }
-                </div>
-                <div className="uk-margin" id="field-organisasi-email">
-                    <label className="uk-form-label form__label-item" htmlFor="email">Email { this.props.propsData.form.type }*</label>
-                    <div className="uk-form-controls">
-                        <input className="uk-input form__input-custom" id="email" name="email" type="email" placeholder="" autoComplete="off" value={ this.props.propsData.form.section.organisasi.email } 
-                        onChange={ (e) => this.handleInput(e, "email", [
-                            {
-                                typeValidate: 'regex',
-                                rule: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i
-                            },
-                            {
-                                typeValidate: 'text',
-                                min: 0,
-                                max: 50
-                            }
-                        ], true, "text", "organisasi") }/>
-                    </div>
-                    { this.renderErrorMessage(this.props.propsData.formErrors.section.organisasi.email, 'email', "") }
-                </div>
+                <InputText name="name" id="name" type="text" label="Nama" section="organisasi" required={ true } typeOA={ this.props.propsData.form.type } placeholder="" validation={ [
+                    {
+                        typeValidate: 'regex',
+                        rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
+                    },
+                    {
+                        typeValidate: 'text',
+                        min: 0,
+                        max: 100
+                    }
+                ] } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputComponent }/>
+                <InputSelect name="category" id="category" type="select" label="Kategori" section="organisasi" required={ true } typeOA="" placeholder="" validation={ [] } 
+                    options={ this.props.category.list } defaultOptions={ null } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputSelectComponent }/>
+                <InputTextArea name="description" id="description" type="text" label="Deskripsi" section="organisasi" required={ true } typeOA={ this.props.propsData.form.type } placeholder="" validation={ [
+                    {
+                        typeValidate: 'text',
+                        min: 10,
+                        max: 1000000
+                    }
+                ] } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputComponent }/>
+                <InputTextArea name="address" id="address" type="text" label="Alamat" section="organisasi" required={ true } typeOA={ this.props.propsData.form.type } placeholder="" validation={ [
+                    {
+                        typeValidate: 'text',
+                        min: 10,
+                        max: 1000000
+                    }
+                ] } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputComponent }/>
+                <InputAsyncSelect name="country" id="country" type="select" label="Lokasi" section="organisasi" required={ true } typeOA="" placeholder="" validation={ [] } 
+                    options={ this.getCountry } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputSelectComponent }/>
+                <InputSelect name="province" id="province" type="select" label="Provinsi" section="organisasi" required={ true } typeOA="" placeholder="" validation={ [] } 
+                    options={ this.props.location.province.list } defaultOptions={ null } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputSelectComponent }/>
+                <InputSelect name="city" id="city" type="select" label="Kota" section="organisasi" required={ true } typeOA="" placeholder="" validation={ [] } 
+                    options={ this.props.location.city.list } defaultOptions={ null } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputSelectComponent }/>
+                <InputNumber name="phone" id="phone" type="text" typeInput="phone" label="No Telpon" section="organisasi" required={ true } typeOA="" placeholder="" validation={ [
+                    {
+                        typeValidate: 'regex',
+                        rule: /^\d+$|^$/,
+                        min: 5,
+                        max: 10
+                        // rule: /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/g //regex untuk nomer telpon dan handphone
+                    }
+                ] } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputComponent }/>
+                <InputText name="email" id="email" type="email" label="Email" section="organisasi" required={ true } typeOA={ this.props.propsData.form.type } placeholder="" validation={ [
+                    {
+                        typeValidate: 'regex',
+                        rule: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i
+                    },
+                    {
+                        typeValidate: 'text',
+                        min: 0,
+                        max: 50
+                    }
+                ] } form={ this.props.propsData.form } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputComponent }/>
                 <div className="uk-margin" id="field-organisasi-tanggal_berdiri">
                     <label className="uk-form-label form__label-item" htmlFor="tanggal_berdiri">Tanggal berdiri</label>
                     <div className="uk-form-controls">

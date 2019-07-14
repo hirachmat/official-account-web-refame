@@ -73,6 +73,11 @@
     align-items: center;
 }
 
+.box-wrapper__box-content__right-item {
+    display: flex;
+    flex-direction: column;
+}
+
 .right-item__title-content {
     position: relative;
 }

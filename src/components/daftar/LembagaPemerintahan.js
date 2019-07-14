@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
+import InputFile from '../../components/form/inputFile'
 
 class LembagaPemerintahan extends Component {
     state = {}
 
-    handleInput(e, state, ruleValidate, required, type, section) {
-        this.props.handleChildPropsChange(e, state, ruleValidate, required, type, section)
-    }
-
     handleShowPreview(value) {
         this.props.handleChildShowPreview(value)
+    }
+
+    handleInputFileComponent = (data) => {
+        this.props.handleInputFileComponent(data)
     }
 
     renderErrorMessage(error, name, type) {
@@ -21,29 +22,13 @@ class LembagaPemerintahan extends Component {
     render() {
         return(
             <div>
-                <div className="uk-margin" id="field-documents-surat_keterangan_pejabat_lembaga">
-                    <label className="uk-form-label form__label-item" htmlFor="surat_keterangan_pejabat_lembaga">Surat Keterangan dari Pejabat Lembaga Pemerintah Terkait*</label>
-                    <label className="uk-form-label form__label-item-small">(ukuran maksimal: 5Mb)</label>
-                    <div uk-form-custom="true">
-                        <input type="file" title="Akta Pendirian Organisasi" 
-                        id="field-akta-pendirian-perusahaan" name="surat_keterangan_pejabat_lembaga"
-                        onChange={ 
-                            (e) => this.handleInput(e, "surat_keterangan_pejabat_lembaga", [
-                                {
-                                    typeValidate: 'file',
-                                    maxSize: 5000000,
-                                    fileType: ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf']
-                                }
-                            ], true, 'file', 'documents') }/>
-                        <button className="uk-button form__button-upload" type="button" tabIndex="-1">Upload Foto Surat</button>
-                    </div>
-                    <div className="uk-margin-small">
-                        { this.props.propsData.formErrors.section.documents.surat_keterangan_pejabat_lembaga === "" && (
-                            <label className="uk-form-label form__label-item-small" onClick={ (e) => this.handleShowPreview(this.props.propsData.nameFile.surat_keterangan_pejabat_lembaga) }>{ this.props.propsData.nameFile.surat_keterangan_pejabat_lembaga }</label>
-                        ) }
-                        { this.renderErrorMessage(this.props.propsData.formErrors.section.documents.surat_keterangan_pejabat_lembaga, 'surat keterangan pejabat lembaga', "") }
-                    </div>
-                </div>
+                <InputFile name="surat_keterangan_pejabat_lembaga" id="surat_keterangan_pejabat_lembaga" type="file" label="Surat Keterangan dari Pejabat Lembaga Pemerintah Terkait" buttonLabel="Surat" section="documents" required={ true } typeOA="" placeholder="" validation={ [
+                    {
+                        typeValidate: 'file',
+                        maxSize: 5000000,
+                        fileType: ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf']
+                    }
+                ] } form={ this.props.propsData.form } nameFile={ this.props.propsData.nameFile } errors={ this.props.propsData.formErrors } formValid={ this.props.propsData.formValid } handleInput={ this.handleInputFileComponent } handleShowPreview={ this.handleShowPreview }/>
             </div>
         )
     }

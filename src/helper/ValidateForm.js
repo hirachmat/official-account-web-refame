@@ -1,3 +1,6 @@
+import API from '../helper/api'
+import axios from 'axios'
+
 function validateField(data) {
     let { name, value, type, title, sectionName, ruleValidate, required, formErrors, formValid } = data
     let validateRule = false
@@ -144,8 +147,36 @@ function setErrorValidate(formErrors) {
     return error
 }
 
+function checkExistingEmail(value) {
+    return API.get(`oa/validation/email/${value}`, {
+        headers: {}
+        }).then(({ data }) => {
+            return data
+        })
+}
+
+function uploadFile(value) {
+    var body = new FormData();
+    body.append('uploadfile', value[0])
+
+    return axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_API_URL}/v1/upload/file`,
+            data: body,
+            headers: {
+                'x-api-key': `${process.env.REACT_APP_X_API_KEY}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(({ data }) => {
+            return data
+        })
+}
+
 export default {
     validateField,
     setRule,
-    setErrorValidate
+    setErrorValidate,
+    checkExistingEmail,
+    uploadFile
 }

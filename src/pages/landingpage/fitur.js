@@ -69,7 +69,7 @@ class Fitur extends Component {
                         </svg>
                     </div>
                 </div>
-                <div className="uk-width-4-5 box-content__right-item">
+                <div className="uk-width-4-5 box-wrapper__box-content__right-item">
                     <div className="right-item__title-content">
                         <p className="title-content__style">{ item.title }</p>
                     </div>
@@ -88,7 +88,7 @@ class Fitur extends Component {
                     <div className="uk-container fitur__parallax__container">
                         <p className="fitur__parallax__title-item">Fitur</p>
 
-                        <div className="uk-grid-small fitur__body-item" uk-grid="true">
+                        <div className="uk-grid-large fitur__body-item" uk-grid="true">
                             { this.renderContent() }
                         </div>
                     </div>

@@ -4,19 +4,18 @@ import '../../assets/frontend/css/daftar/daftar.css'
 import Select from 'react-select'
 import * as typeActions from '../../actions/typeActions'
 import * as locationActions from '../../actions/locationActions'
-import ValidateForm from '../../helper/ValidateForm'
-import DataSection from '../../components/daftar/DataSection'
-import API from '../../helper/api'
 import axios from 'axios'
+import API from '../../helper/api'
+import DataSection from '../../components/daftar/DataSection'
 import Perusahaan from '../../components/daftar/Perusahaan'
 import Organisasi from '../../components/daftar/Organisasi'
 import LembagaPemerintahan from '../../components/daftar/LembagaPemerintahan'
 import Yayasan from "../../components/daftar/Yayasan"
-import debounce from "lodash/debounce"
-import Loader from '../../helper/loader'
 import UIkit from "uikit"
 import PinInput from "react-pin-input"
 import moment from "moment"
+import InputText from '../../components/form/inputText'
+import InputNumber from '../../components/form/inputNumber'
 
 class Daftar extends Component {
     picFullName = ""
@@ -150,13 +149,13 @@ class Daftar extends Component {
     renderTypeSection(value) {
         switch(value) {
             case 'Organisasi':
-                return <Organisasi propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleChildShowPreview={ this.handleChildShowPreview }/>
+                return <Organisasi propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleChildShowPreview={ this.handleChildShowPreview } handleInputComponent={ this.handleInputComponent } handleInputSelectComponent={ this.handleInputSelectComponent } handleInputFileComponent={ this.handleInputFileComponent }/>
             case 'Perusahaan':
-                return <Perusahaan propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleChildShowPreview={ this.handleChildShowPreview }/>
+                return <Perusahaan propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleChildShowPreview={ this.handleChildShowPreview } handleInputComponent={ this.handleInputComponent } handleInputSelectComponent={ this.handleInputSelectComponent } handleInputFileComponent={ this.handleInputFileComponent }/>
             case 'Lembaga Pemerintahan':
-                return <LembagaPemerintahan propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleChildShowPreview={ this.handleChildShowPreview }/>
+                return <LembagaPemerintahan propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleChildShowPreview={ this.handleChildShowPreview } handleInputComponent={ this.handleInputComponent } handleInputSelectComponent={ this.handleInputSelectComponent } handleInputFileComponent={ this.handleInputFileComponent }/>
             case 'Yayasan':
-                return <Yayasan propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleChildShowPreview={ this.handleChildShowPreview }/>
+                return <Yayasan propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleChildShowPreview={ this.handleChildShowPreview } handleInputComponent={ this.handleInputComponent } handleInputSelectComponent={ this.handleInputSelectComponent } handleInputFileComponent={ this.handleInputFileComponent }/>
             default:
               return null
         }
@@ -184,60 +183,71 @@ class Daftar extends Component {
             this.handleInputFileChange(e, stateName, ruleValidate, required, sectionName)
     }
 
-    handleDateChange(nameState, value) {
+    handleDateChange = (nameState, value) => {
         const newState = { ...this.state }
         newState.form.section.organisasi[nameState] = value
 
         this.setState(newState)
     }
 
-    handleInput(e, stateName, ruleValidate, required, sectionName) {
-        let { name, value } = e.target
+    handphoneParse(value) {
+        return parseInt(value.substr(0, 1)) === 0 ? `${this.state.phone_code}${value.substr(1, value.length)}` : `${this.state.phone_code}${value}`
+    }
+
+    handleInputComponent = (data) => {
+        const { formValid, validate, name, value, section } = data
         const newState = { ...this.state }
-        newState.isLoading = false
+        newState.formErrors = validate.formErrors
+        newState.formValid = formValid
+        newState.form.section[section][name] = value
 
-        const rule = ValidateForm.setRule(e, ruleValidate, required, sectionName, newState.formErrors, newState.formValid)
-        const validate = ValidateForm.validateField(rule)
-        const error = ValidateForm.setErrorValidate(validate.formErrors)
-        newState.form.section[sectionName][e.target.name] = e.target.value
-        newState.formValid = error
+        const otpModal = document.getElementById("otpModal")
 
-        if(validate.name === 'email' && validate.formValid){
-            if(sectionName !== "pic") {
-                this.checkExistingEmail(value).then((response) => {
-                    if(response.status === 302){
-                        newState.formErrors.section[sectionName][name] = 'sudah terdaftar'
-                        newState.formValid = false
-                    }else{
-                        newState.formErrors.section[sectionName][name] = ''
-                        newState.formValid = true
-                    }
-                }).catch(() => {
-                    alert("Gagal mengirim email")
+        if(name === "handphone") {
+            if(data.message === "success"){
+                // console.log("buka modal")
+                UIkit.modal(otpModal).show()
+                this.picFullName = data.picFullName
+                this.picEmail = data.picEmail
+                newState.isRegisteredHi = data.isRegisteredHi
+                newState.timeout = data.timeout
+                newState.now = Date.now()
+                Object.keys(newState.form.section.pic).forEach(item => {
+                    if(item !== "handphone")
+                        newState.form.section.pic[item] = ""
                 })
+                this.interval = setInterval(() => {
+                    this.setState({ now: Date.now() })
+                }, 500)
+            }else{
+                // console.log("tutup modal")
+                UIkit.modal(otpModal).hide()
+                this.picFullName = data.picFullName
+                this.picEmail = data.picEmail
+                newState.isRegisteredHi = data.isRegisteredHi
+                newState.timeout = data.timeout
+                newState.now = Date.now()
+                newState.formErrors.section.pic.handphone = data.errorMessage
+                newState.validateOtpReq = data.validateOtpReq
+                Object.keys(newState.form.section.pic).forEach((item) => {
+                    if(item !== "handphone") {
+                        newState.form.section.pic[item] = ""
+                        newState.formErrors.section.pic[item] = ""
+                    }
+                })
+                clearInterval(this.interval)
             }
         }
 
         this.setState(newState)
     }
 
-    checkExistingEmail(value) {
-        return API.get(`oa/validation/email/${value}`, {
-            headers: {}
-            }).then(({ data }) => {
-                return data
-            })
-    }
-
-    async handleSelectChange(e, stateName, ruleValidate, required, sectionName) {
+    handleInputSelectComponent = async(data) => {
+        const { name, value, label, section } = data
         const newState = { ...this.state }
-        
-        if(stateName === 'country'){
-            newState.phone_code = e.phone_code
-        }
 
-        if(stateName === 'country' || stateName === 'province' || stateName === 'city'){
-            newState.form.section[sectionName].location[stateName] = e.value
+        if(name === "country" || name === "province" || name === "city"){
+            newState.form.section[section].location[name] = value
 
             if(this.state.form.section.organisasi.location.country !== '')
                 try {
@@ -252,16 +262,16 @@ class Daftar extends Component {
                     alert("Gagal mengambil data list kota")
                 }
         }else{
-            if(stateName === 'category'){
-                newState.form.section[sectionName][stateName] = e.label
-                newState.form.section[sectionName][`${stateName}_code`] = e.value
+            if(name === "category") {
+                newState.form.section[section][name] = label
+                newState.form.section[section][`${name}_code`] = value
             }else{
-                newState.form.section[sectionName][stateName] = e.value
+                newState.form.section[section][name] = value
             }
         }
 
-        if(stateName === 'jenis'){
-            if(e.value === 'Tidak Berbadan Hukum'){
+        if(name === 'jenis'){
+            if(value === 'Tidak Berbadan Hukum'){
                 newState.form.section.documents.surat_pengesahan_badan_hukum = ''
                 newState.nameFile.surat_pengesahan_badan_hukum = ''
             }else{
@@ -270,109 +280,26 @@ class Daftar extends Component {
             }
         }
 
-        this.setState(newState, () => {
-            const rule = {
-                name: stateName,
-                value: e.value,
-                type: 'text',
-                title: stateName,
-                sectionName: sectionName,
-                ruleValidate: ruleValidate,
-                required: required,
-                formErrors: this.state.formErrors,
-                formValid: this.state.formValid
-            }
-            const validate = ValidateForm.validateField(rule)
-            const error = ValidateForm.setErrorValidate(validate.formErrors)
-            newState.formValid = error
+        this.setState(newState)
+    }
 
-            this.setState(newState)
+    handleInputFileComponent = (data) => {
+        const { formValid, validate, name, value, section, nameFile } = data
+        const newState = { ...this.state }
+        newState.formErrors = validate.formErrors
+        newState.formValid = formValid
+        newState.form.section[section][name] = value
+        newState.nameFile[name] = nameFile
+
+        this.setState(newState)
+    }
+
+    handleChildShowPreview = (value) => {
+        const previewModal = document.getElementById("previewModal")
+        this.setState({ imagePreview: value }, () => {
+            UIkit.modal(previewModal).show()
         })
     }
-
-    handleInputNumber(e, stateName, ruleValidate, required, sectionName) {
-        const newState = { ...this.state }
-        const value = e.target.value
-        const name = e.target.name
-
-        const rule = ValidateForm.setRule(e, ruleValidate, required, sectionName, newState.formErrors, newState.formValid)
-        const validate = ValidateForm.validateField(rule)
-        const error = ValidateForm.setErrorValidate(validate.formErrors)
-        newState.form.section[sectionName][e.target.name] = e.target.value
-        newState.formValid = error
-
-        if(value.length > ruleValidate[0].max){
-            return false
-        }else{
-            newState.form.section[sectionName][e.target.name] = value
-
-            if(validate.formErrors.section[sectionName][name] !== ` tidak valid`){
-                if(name === "handphone"){
-                    newState.validateOtpReq = false
-                    newState.formErrors.section.pic.handphone = ""
-                    value.length === 0 ? newState.isLoading = false : this.validateHandphone(value)
-                }
-                this.setState(newState)
-            }
-        }
-    }
-
-    validateHandphone = debounce((value) => {
-        this.setState({ isLoading: true })
-        const newState = { ...this.state }
-        const otpModal = document.getElementById("otpModal")
-        const handphone = this.handphoneParse(value)
-
-        API.get(`landing/official/phone/${handphone}/validate`, {
-            headers: {}
-            }).then(({ data }) => {
-                console.log(data)
-                newState.isLoading = false
-                newState.isRegisteredHi = true
-                newState.timeout = moment(data.data.expery).valueOf()
-                Object.keys(newState.form.section.pic).forEach(item => {
-                    if(item !== "handphone")
-                        newState.form.section.pic[item] = ""
-                })
-                this.picFullName = data.data.name
-                this.picEmail = data.data.email
-
-                UIkit.modal(otpModal).show()
-
-                this.interval = setInterval(() => {
-                    this.setState({ now: Date.now() })
-                }, 500)
-            }).catch((error => {
-                console.log(error.response)
-                if(!error.response.data.status){
-                    newState.isLoading = false
-                    if(error.response.data.data.hasOwnProperty("req") && error.response.data.data.hasOwnProperty('expery')) {
-                        if(error.response.data.data.req > newState.maxResendOtp){
-                            newState.validateOtpReq = true
-                            newState.formErrors.section.pic.handphone = `Anda dapat melakukan verifikasi kembali dalam waktu 5 menit.`
-                        }
-                    }else{
-                        newState.validateOtpReq = false
-                        newState.formErrors.section.pic.handphone = "Anda belum terdaftar di Hiapp"
-                    }
-                    newState.timeout = Date.now()
-                    Object.keys(newState.form.section.pic).forEach((item) => {
-                        if(item !== "handphone") {
-                            newState.form.section.pic[item] = ""
-                            newState.formErrors.section.pic[item] = ""
-                        }
-                    })
-                    this.picFullName = ""
-                    this.picEmail = ""
-    
-                    clearInterval(this.interval)
-    
-                    UIkit.modal(otpModal).hide()
-
-                    this.setState(newState)
-                }
-            }))
-    }, 1000)
 
     proccessOtp(value) {
         const otpModal = document.getElementById("otpModal")
@@ -387,9 +314,8 @@ class Daftar extends Component {
             headers: {
                 'x-api-key': `${process.env.REACT_APP_X_API_KEY}`
             }
-        })
-        .then(({ data }) => {
-            console.log(data)
+        }).then(({ data }) => {
+            // console.log(data)
             this.picFullName === "" ? document.getElementById("field-nama-lengkap").removeAttribute("disabled") : document.getElementById("field-nama-lengkap").setAttribute("disabled", "disabled")
             this.picEmail === "" ? document.getElementById("field-email").removeAttribute("disabled") : document.getElementById("field-email").setAttribute("disabled", "disabled")
             newState.form.section.pic.full_name = this.picFullName
@@ -407,7 +333,7 @@ class Daftar extends Component {
                 UIkit.modal(otpModal).hide()
             }, 1000)
         }).catch(error => {
-            console.log(error.response)
+            // console.log(error.response)
             newState.form.section.pic.full_name = ""
             newState.form.section.pic.email = ""
             newState.validOtp = false
@@ -415,66 +341,48 @@ class Daftar extends Component {
         })
     }
 
-    async handleInputFileChange(e, stateName, ruleValidate, required, sectionName) {
-        const value = e.target.files
-        const { name, type, title } = e.target
-        
+    resendOTP() {
+        const otpModal = document.getElementById("otpModal")
         const newState = { ...this.state }
-        newState.nameFile[name] = value[0].name
 
-        const rule = {
-            name: name,
-            value: value,
-            type: type,
-            title: title,
-            sectionName: sectionName,
-            ruleValidate: ruleValidate,
-            required: required,
-            formErrors: this.state.formErrors,
-            formValid: this.state.formValid
-        }
-        const validate = ValidateForm.validateField(rule)
-        const error = ValidateForm.setErrorValidate(validate.formErrors)
-        newState.formValid = error
-
-        if(validate.formErrors.section[sectionName][name] === "") {
-            try{
-                const uploadFile = await this.uploadFile(value)
-                newState.form.section[sectionName][name] = uploadFile
-            }catch(err) {
-                newState.formErrors.section.documents[name] = 'file gagal diupload'
-            }
+        if(newState.counterResendOtp > newState.maxResendOtp){
+            newState.isRegisteredHi = false
+            newState.timeout = Date.now()
+            newState.counterResendOtp = 0
+            newState.formErrors.section.pic.handphone = 'Anda sudah gagal melakukan verifikasi sebanyak 5 kali. Anda dapat melakukan verifikasi kembali 1 x 24 jam.'
+            newState.validateOtpReq = true
+            UIkit.modal(otpModal).hide()
+            this.setState(newState)
+            return
         }
 
-        this.setState(newState)
+        const handphone = this.handphoneParse(newState.form.section.pic.handphone)
+
+        API.get(`landing/official/phone/${handphone}/request`, {
+            headers: {}
+        }).then(({ data }) => {
+            newState.isLoading = false
+            newState.isRegisteredHi = true
+            newState.timeout = moment(data.data.expery).valueOf()
+            newState.counterResendOtp = data.data.req
+
+            this.interval = setInterval(() => {
+                this.setState({ now: Date.now() })
+            }, 500)
+            this.setState(newState)
+        }).catch(() => {
+            newState.isRegisteredHi = false
+            newState.timeout = Date.now()
+            newState.counterResendOtp = 0
+
+            clearInterval(this.interval)
+            UIkit.modal(otpModal).hide()
+            this.setState(newState)
+        })
     }
 
-    uploadFile(value) {
-        var body = new FormData();
-        body.append('uploadfile', value[0])
-
-        return axios({
-                method: 'post',
-                url: `${process.env.REACT_APP_API_URL}/v1/upload/file`,
-                data: body,
-                headers: {
-                    'x-api-key': `${process.env.REACT_APP_X_API_KEY}`,
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(({ data }) => {
-                return data
-            })
-    }
-
-    handleChildShowPreview(value) {
-        // this.setState({ imagePreview: value }, () => {
-        //     this.setState({ showModal: true })
-        // })
-    }
-
-    handphoneParse(value) {
-        return parseInt(value.substr(0, 1)) === 0 ? `${this.state.phone_code}${value.substr(1, value.length)}` : `${this.state.phone_code}${value}`
+    handleCloseOtpModal() {
+        this.setState({ isRegisteredHi: false })
     }
 
     render() {
@@ -516,7 +424,7 @@ class Daftar extends Component {
                                         <div className="uk-margin form__section">
                                             <label className="uk-form-label section__label-item">Data { this.state.form.type }</label>
                                         </div>
-                                        <DataSection propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleDateChange={ this.handleDateChange } />
+                                        <DataSection propsData={ this.state } handleChildPropsChange={ this.handleChildPropsChange } handleDateChange={ this.handleDateChange } handleInputComponent={ this.handleInputComponent } handleInputSelectComponent={ this.handleInputSelectComponent }/>
                                         <div className="uk-margin form__section">
                                             <label className="uk-form-label section__label-item">Kelengkapan { this.state.form.type }</label>
                                         </div>
@@ -524,85 +432,51 @@ class Daftar extends Component {
                                         <div className="uk-margin form__section">
                                             <label className="uk-form-label section__label-item">Akun Penanggung Jawab Penggunaan Official Account Manager Dalam { this.state.form.type }</label>
                                         </div>
-                                        <div className="uk-margin" id="field-pic-handphone">
-                                            <label className="uk-form-label form__label-item" htmlFor="handphone">No Handphone*</label>
-                                            <div className="uk-form-controls uk-inline form__with-icon">
-                                                <span className="uk-form-icon form__with-icon__label-item">62</span>
-                                                <input className="uk-input form__input-custom" id="handphone" name="handphone" type="text" placeholder="" autoComplete="off" value={ this.state.form.section.pic.handphone } 
-                                                onChange={ 
-                                                    (e) => this.handleInputNumber(e, 'handphone', [
-                                                        {
-                                                            typeValidate: 'regex',
-                                                            rule: /^\d+$|^$/,
-                                                            min: 9,
-                                                            max: 12
-                                                            // rule: /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/g //regex untuk nomer telpon dan handphone
-                                                        }
-                                                    ], true, 'pic') }/>
-                                                { this.state.isLoading && (
-                                                    <div className="spinner-loading">
-                                                        <Loader/>
-                                                    </div>
-                                                ) }
-                                            </div>
-                                            <p className="uk-has-error">{ this.state.formErrors.section.pic.handphone !== "" ? `${this.state.validateOtpReq ? '' : 'no handphone'} ${ this.state.formErrors.section.pic.handphone }` : "" }</p>
-                                        </div>
+                                        <InputNumber name="handphone" id="handphone" type="text" typeInput="phone" label="No Handphone" section="pic" required={ true } typeOA="" placeholder="" 
+                                        debounce="on" validation={ [
+                                            {
+                                                typeValidate: 'regex',
+                                                rule: /^\d+$|^$/,
+                                                min: 9,
+                                                max: 12
+                                                // rule: /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/g //regex untuk nomer telpon dan handphone
+                                            }
+                                        ] } form={ this.state.form } errors={ this.state.formErrors } formValid={ this.state.formValid } handleInput={ this.handleInputComponent }/>
                                         { this.state.isRegisteredHi && (
                                             <div>
-                                                <div className="uk-margin" id="field-pic-full_name">
-                                                    <label className="uk-form-label form__label-item" htmlFor="nama">Nama Lengkap*</label>
-                                                    <div className="uk-form-controls">
-                                                        <input className="uk-input form__input-custom" id="field-nama-lengkap" name="full_name" type="text" placeholder="" autoComplete="off" value={ this.state.form.section.pic.full_name } 
-                                                        onChange={ (e) => this.handleInput(e, [
-                                                            {
-                                                                typeValidate: 'regex',
-                                                                rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
-                                                            },
-                                                            {
-                                                                typeValidate: 'text',
-                                                                min: 0,
-                                                                max: 100
-                                                            }
-                                                        ], true, 'pic') }/>
-                                                    </div>
-                                                    <p className="uk-has-error">{ this.state.formErrors.section.pic.full_name !== "" ? `nama lengkap ${ this.state.formErrors.section.pic.full_name }` : "" }</p>
-                                                </div>
-                                                <div className="uk-margin" id="field-pic-email">
-                                                    <label className="uk-form-label form__label-item" htmlFor="nama">Email*</label>
-                                                    <div className="uk-form-controls">
-                                                        <input className="uk-input form__input-custom" id="field-email" name="email" type="text" placeholder="" autoComplete="off" value={ this.state.form.section.pic.email } 
-                                                        onChange={ (e) => this.handleInput(e, [
-                                                            {
-                                                                typeValidate: 'regex',
-                                                                rule: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i
-                                                            },
-                                                            {
-                                                                typeValidate: 'text',
-                                                                min: 0,
-                                                                max: 50
-                                                            }
-                                                        ], true, 'pic') }/>
-                                                    </div>
-                                                    <p className="uk-has-error">{ this.state.formErrors.section.pic.email !== "" ? `email ${ this.state.formErrors.section.pic.email }` : "" }</p>
-                                                </div>
-                                                <div className="uk-margin" id="field-pic-role">
-                                                    <label className="uk-form-label form__label-item" htmlFor="nama">Peran atau Jabatan Dalam { this.state.form.type }*</label>
-                                                    <div className="uk-form-controls">
-                                                        <input className="uk-input form__input-custom" id="field-role" name="role" type="text" placeholder="" autoComplete="off" value={ this.state.form.section.pic.role } 
-                                                        onChange={ (e) => this.handleInput(e, [
-                                                            {
-                                                                typeValidate: 'regex',
-                                                                rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
-                                                            },
-                                                            {
-                                                                typeValidate: 'text',
-                                                                min: 0,
-                                                                max: 25
-                                                            }
-                                                        ], true, 'pic') }/>
-                                                    </div>
-                                                    <p className="uk-has-error">{ this.state.formErrors.section.pic.role !== "" ? `jabatan dalam ${ this.state.form.type.toLowerCase() } ${ this.state.formErrors.section.pic.role }` : "" }</p>
-                                                </div>
+                                                <InputText name="full_name" id="field-nama-lengkap" type="text" label="Nama Lengkap" section="pic" required={ true } disabled={ true } typeOA="" placeholder="" validation={ [
+                                                    {
+                                                        typeValidate: 'regex',
+                                                        rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
+                                                    }, 
+                                                    {
+                                                        typeValidate: 'text',
+                                                        min: 0,
+                                                        max: 100
+                                                    }
+                                                ] } form={ this.state.form } errors={ this.state.formErrors } formValid={ this.state.formValid } handleInput={ this.handleInputComponent }/>
+                                                <InputText name="email" id="field-email" type="email" label="Email" section="pic" required={ true } disabled={ true } typeOA="" placeholder="" validation={ [
+                                                    {
+                                                        typeValidate: 'regex',
+                                                        rule: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i
+                                                    },
+                                                    {
+                                                        typeValidate: 'text',
+                                                        min: 0,
+                                                        max: 50
+                                                    }
+                                                ] } form={ this.state.form } errors={ this.state.formErrors } formValid={ this.state.formValid } handleInput={ this.handleInputComponent }/>
+                                                <InputText name="role" id="role" type="text" label="Peran atau Jabatan Dalam" section="pic" required={ true } typeOA={ this.state.form.type } placeholder="" validation={ [
+                                                    {
+                                                        typeValidate: 'regex',
+                                                        rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
+                                                    },
+                                                    {
+                                                        typeValidate: 'text',
+                                                        min: 0,
+                                                        max: 25
+                                                    }
+                                                ] } form={ this.state.form } errors={ this.state.formErrors } formValid={ this.state.formValid } handleInput={ this.handleInputComponent }/>
                                             </div>
                                         ) }
 
@@ -615,6 +489,9 @@ class Daftar extends Component {
                                                 </label>
                                             </div>
                                         ) }
+                                        <div className="uk-margin form__footer">
+                                            <button type="button" className="uk-button from__footer__button" onClick={ (e) => console.log(e) }>Kirim Formulir Pendaftaran</button>
+                                        </div>
                                     </div>
                                 ) }
                             </form>
@@ -622,9 +499,22 @@ class Daftar extends Component {
                     </div>
                 </div>
 
+                <div id="previewModal" className="uk-flex-top" uk-modal="true" bg-close="false" esc-close="false">
+                    <div className="uk-modal-dialog uk-width-auto uk-margin-auto-vertical">
+                        <button className="uk-modal-close-default" type="button" uk-close="true" />
+                        {/* <img src={ this.state.imagePreview } alt="preview" /> */}
+                        { this.state.imagePreview.match(/.pdf$/i) ? (
+                            <embed src={ this.state.imagePreview } type="application/pdf" style={{ width: "100%", height: "500px" }}/>
+                        ) : (
+                            <img src={ this.state.imagePreview } alt="preview" />
+                        ) }
+                    </div>
+                </div>
+
 
                 <div id="otpModal" className="uk-flex-top" uk-modal="true" bg-close="false" esc-close="false">
                     <div className="uk-modal-dialog uk-margin-auto-vertical">
+                        <button className="uk-modal-close-default" type="button" uk-close="true" onClick={ () => this.handleCloseOtpModal() }/>
                         <div className="uk-modal-header uk-flex-column modal no-border-bottom modal__header-container">
                             <label className="uk-full-width uk-text-center uk-text-large uk-text-bold">Verifikasi Nomor Handphone</label>
                             <label className="uk-full-width uk-text-center uk-text-small">Kode verifikasi telah dikirimkan ke nomor handphone Anda melalui SMS</label>
@@ -651,7 +541,7 @@ class Daftar extends Component {
                             </label>
                         ) }
                         <label className="uk-flex-row content-center uk-full-width uk-text-center uk-text-small">Tidak menerima SMS? &nbsp;&nbsp;
-                            <button className="button-link" onClick={() => this.resendOTP()} disabled={!canResend}>
+                            <button className={`button-link ${ !canResend ? "disabled" : "" }`} onClick={() => this.resendOTP()} disabled={!canResend}>
                                 Kirim Ulang {!canResend && `${('0' + duration.minutes()).slice(-2)}:${('0' + duration.seconds()).slice(-2)}`}
                             </button>
                         </label>

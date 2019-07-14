@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import '../../assets/frontend/css/hubungikami/hubungikami.css'
-import ValidateForm from '../../helper/ValidateForm'
 import UIkit from 'uikit'
+import InputText from '../../components/form/inputText'
+import InputTextArea from '../../components/form/inputTextArea'
 
 class HubungiKami extends Component {
     state = {
@@ -28,36 +29,14 @@ class HubungiKami extends Component {
         formValid: false
     }
 
-    handleInput(e, ruleValidate, required) {
-        const name = e.target.name
-        const value = e.target.value
-        const type = e.target.type
-        const title = e.target.title
+    handleInput = (data) => {
+        const { formValid, validate, name, value, section } = data
+        const newState = { ...this.state }
+        newState.formErrors = validate.formErrors
+        newState.formValid = formValid
+        newState.form.section[section][name] = value
 
-        let newState = Object.assign({}, this.state)
-        newState.form.section.general[name] = value
-
-        this.setState(newState, () => {
-            console.log(newState)
-            let rule = {
-                name: name,
-                value: value,
-                type: type,
-                title: title,
-                sectionName: 'general',
-                ruleValidate: ruleValidate,
-                required: required,
-                formErrors: this.state.formErrors,
-                formValid: this.state.formValid
-            }
-
-            let validate = ValidateForm.validateField(rule)
-            this.setState({ formErrors: validate.formErrors }, () => {
-                let error = []
-                Object.keys(this.state.formErrors.section.general).map((item, index) => error.push(this.state.formErrors.section.general[item] === ''))
-                this.setState({ formValid: error.indexOf(false) === -1 })
-            })
-        })
+        this.setState(newState)
     }
 
     submitForm() {
@@ -65,12 +44,10 @@ class HubungiKami extends Component {
         let newState = Object.assign({}, this.state)
 
         Object.keys(this.state.form.section.general).map(item => {
-            // let label = Utility.capitalizeString(item.replace(/_/g, " "))
-            if(this.state.form.section.general[item] === ''){
+            if(this.state.form.section.general[item] === '')
                 newState.formErrors.section.general[item] = ` harus diisi`
-            }else{
+            else
                 newState.formErrors.section.general[item] = this.state.formErrors.section.general[item]
-            }
             
             validateInputText.push(this.state.form.section.general[item] !== '')
 
@@ -107,10 +84,7 @@ class HubungiKami extends Component {
             // console.log(responseJson)
             UIkit.modal(modal).show()
             let newState = Object.assign({}, this.state)
-            newState.form.section.general.nama = ""
-            newState.form.section.general.email = ""
-            newState.form.section.general.judul = ""
-            newState.form.section.general.pesan = ""
+            Object.keys(this.state.form.section.general).forEach(item => newState.form.section.general[item] = "")
             this.setState( newState )
             return responseJson
         })
@@ -135,75 +109,46 @@ class HubungiKami extends Component {
                                 Jika Anda ingin bertanya mengenai Hi Official Account, memberikan saran atau masukan, silahkan gunakan formulir dibawah ini untuk berkirim pesan kepada Kami. Kami sangat senang mendengarkan aspirasi dari Anda.
                             </div>
                             <form className="uk-form-stacked card__box__form">
-                                <div className="uk-margin">
-                                    <label className="uk-form-label form__label-item" htmlFor="nama">Nama</label>
-                                    <div className="uk-form-controls">
-                                        <input className="uk-input form__input-custom" id="nama" name="nama" type="text" placeholder="" autoComplete="off" value={ this.state.form.section.general.nama } 
-                                        onChange={ (e) => this.handleInput(e, [
-                                            {
-                                                typeValidate: 'regex',
-                                                rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
-                                            },
-                                            {
-                                                typeValidate: 'text',
-                                                min: 0,
-                                                max: 100
-                                            }
-                                        ], true) }/>
-                                    </div>
-                                    <p className="uk-has-error">{ this.state.formErrors.section.general.nama !== "" ? `nama ${ this.state.formErrors.section.general.nama }` : "" }</p>
-                                </div>
-                                <div className="uk-margin">
-                                    <label className="uk-form-label form__label-item" htmlFor="email">Email</label>
-                                    <div className="uk-form-controls">
-                                        <input className="uk-input form__input-custom" id="email" name="email" type="email" placeholder="" autoComplete="off" value={ this.state.form.section.general.email } 
-                                        onChange={ 
-                                            (e) => this.handleInput(e, [
-                                                {
-                                                    typeValidate: 'regex',
-                                                    rule: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/gi
-                                                },
-                                                {
-                                                    typeValidate: 'text',
-                                                    min: 0,
-                                                    max: 50
-                                                }
-                                            ], true) }/>
-                                    </div>
-                                    <p className="uk-has-error">{ this.state.formErrors.section.general.email !== "" ? `email ${ this.state.formErrors.section.general.email }` : "" }</p>
-                                </div>
-                                <div className="uk-margin">
-                                    <label className="uk-form-label form__label-item" htmlFor="judul">Judul</label>
-                                    <div className="uk-form-controls">
-                                        <input className="uk-input form__input-custom" id="judul" name="judul" type="text" placeholder="" autoComplete="off" value={ this.state.form.section.general.judul }
-                                        onChange={ (e) => this.handleInput(e, [
-                                            {
-                                                typeValidate: 'regex',
-                                                rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
-                                            },
-                                            {
-                                                typeValidate: 'text',
-                                                min: 0,
-                                                max: 50
-                                            }
-                                        ], true) }/>
-                                    </div>
-                                    <p className="uk-has-error">{ this.state.formErrors.section.general.judul !== "" ? `judul ${ this.state.formErrors.section.general.judul }` : "" }</p>
-                                </div>
-                                <div className="uk-margin">
-                                    <label className="uk-form-label form__label-item">Pesan</label>
-                                    <div className="uk-form-controls">
-                                        <textarea className="uk-textarea form__input-custom" id="pesan" name="pesan" rows={8} placeholder="" value={ this.state.form.section.general.pesan }
-                                        onChange={ (e) => this.handleInput(e, [
-                                            {
-                                                typeValidate: 'text',
-                                                min: 10,
-                                                max: 9999
-                                            }
-                                        ], true) }/>
-                                    </div>
-                                    <p className="uk-has-error">{ this.state.formErrors.section.general.pesan !== "" ? `pesan ${ this.state.formErrors.section.general.pesan }` : "" }</p>
-                                </div>
+                                <InputText name="nama" id="nama" type="text" label="Nama" section="general" required={ true } typeOA="" placeholder="" validation={ [
+                                    {
+                                        typeValidate: 'regex',
+                                        rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
+                                    },
+                                    {
+                                        typeValidate: 'text',
+                                        min: 0,
+                                        max: 100
+                                    }
+                                ] } form={ this.state.form } errors={ this.state.formErrors } formValid={ this.state.formValid } handleInput={ this.handleInput }/>
+                                <InputText name="email" id="email" type="email" label="Email" section="general" required={ true } typeOA="" placeholder="" validation={ [
+                                    {
+                                        typeValidate: 'regex',
+                                        rule: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/gi
+                                    },
+                                    {
+                                        typeValidate: 'text',
+                                        min: 0,
+                                        max: 50
+                                    }
+                                ] } form={ this.state.form } errors={ this.state.formErrors } formValid={ this.state.formValid } handleInput={ this.handleInput }/>
+                                <InputText name="judul" id="judul" type="text" label="Judul" section="general" required={ true } typeOA="" placeholder="" validation={ [
+                                    {
+                                        typeValidate: 'regex',
+                                        rule: /(^[a-zA-Z0-9.,-.'\s]*)$/gi
+                                    },
+                                    {
+                                        typeValidate: 'text',
+                                        min: 0,
+                                        max: 50
+                                    }
+                                ] } form={ this.state.form } errors={ this.state.formErrors } formValid={ this.state.formValid } handleInput={ this.handleInput }/>
+                                <InputTextArea name="pesan" id="pesan" type="text" label="Pesan" section="general" required={ true } typeOA="" placeholder="" validation={ [
+                                    {
+                                        typeValidate: 'text',
+                                        min: 10,
+                                        max: 9999
+                                    }
+                                ] } form={ this.state.form } errors={ this.state.formErrors } formValid={ this.state.formValid } handleInput={ this.handleInput }/>
                                 <div className="uk-margin form__footer">
                                     <button type="button" className="uk-button from__footer__button" onClick={ (e) => this.submitForm(e) }>Kirim Pesan</button>
                                 </div>
@@ -211,7 +156,6 @@ class HubungiKami extends Component {
                         </div>
                     </div>
                 </div>
-
 
                 <div className="hubungikami__modal" id="hubungikami__modal" uk-modal="true" bg-close="false" esc-close="false">
                     <div className="uk-modal-dialog uk-modal-body uk-margin-auto-vertical hubungikami__modal__dialog">

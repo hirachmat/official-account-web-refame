@@ -69,16 +69,13 @@
 
 .information-hiapp__container__title-content {
     position: relative;
-    min-height: 50px;
-    height: auto;
 }
 
 .information-hiapp__container__title-item {
-    /* position: relative; */
     font-size: 22px;
     font-weight: bold;
     color: #000;
-    /* height: 50px; */
+    padding: 15px 0px 15px 0px;
 }
 
 .information-hiapp__container__title-item:after {

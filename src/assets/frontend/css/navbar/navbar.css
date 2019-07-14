@@ -1,13 +1,11 @@
 .navbar {
     position: absolute;
     width: 100%;
-    /* background-color: transparent !important; */
 }
 
 .container__wrapper {
     display: flex;
     height: 80px;
-    /* background-color: transparent !important; */
 }
 
 .navbar__container {

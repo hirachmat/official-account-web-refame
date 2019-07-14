@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import UIkit from 'uikit'
 import '../../assets/frontend/css/landingpage/parallax.css'
 import Logo from '../../assets/frontend/images/logo.svg'
@@ -94,13 +95,13 @@ class Parallax extends Component {
                             <img src={ Logo } alt="logo-hiapp"/><span className="header-item__title-item">OFFICIAL ACCOUNTS</span>
                         </div>
                         <div id="sliderRight" className="right-item__body-item"
-                            uk-slideshow="autoplay: true; autoplay-interval: 5000; draggable: false; pause-on-hover: false; min-height: 150; max-height: 150; ratio: 7:3; finite: false; animation: uk-animation-slide-left-medium; velocity: 0.2; sets: true">
+                            uk-slideshow="autoplay: true; autoplay-interval: 5000; draggable: false; pause-on-hover: false; min-height: 150; max-height: 150; ratio: 7:3; finite: false; animation: uk-animation-slide-left-medium; velocity: 0.125; sets: true">
                             <ul className="uk-slideshow-items">
                                 { this.renderRightContent() }
                             </ul>
                         </div>
                         <div className="right-item__footer-item">
-                            <button className="uk-button footer-item__button-register">Daftar</button>
+                            <button className="uk-button footer-item__button-register" onClick={ () => this.props.history.push('/daftar') }>Daftar</button>
                         </div>
                     </div>
 
@@ -109,13 +110,13 @@ class Parallax extends Component {
                             <img src={ Logo } alt="logo-hiapp"/><span className="header-item__title-item">OFFICIAL ACCOUNTS</span>
                         </div>
                         <div id="sliderRight" className="right-item__body-item"
-                            uk-slideshow="autoplay: true; autoplay-interval: 5000; draggable: false; pause-on-hover: false; min-height: 150; max-height: 150; ratio: 7:3; finite: false; animation: uk-animation-slide-left-medium; velocity: 0.2; sets: true">
+                            uk-slideshow="autoplay: true; autoplay-interval: 5000; draggable: false; pause-on-hover: false; min-height: 150; max-height: 150; ratio: 7:3; finite: false; animation: uk-animation-slide-left-medium; velocity: 0.125; sets: true">
                             <ul className="uk-slideshow-items">
                                 { this.renderRightContent() }
                             </ul>
                         </div>
                         <div className="right-item__footer-item">
-                            <button className="uk-button footer-item__button-register">Daftar</button>
+                            <button className="uk-button footer-item__button-register" onClick={ () => this.props.history.push('/daftar') }>Daftar</button>
                         </div>
                     </div>
                 </div>
@@ -124,4 +125,4 @@ class Parallax extends Component {
     }
 }
 
-export default Parallax
+export default withRouter(Parallax)
